@@ -39,7 +39,7 @@ def main(argv: list[str] | None = None) -> int:
                     help="Stored patterns per seed (v0 synthetic default).")
     ap.add_argument("--N", type=int, default=64, help="State dimension.")
     ap.add_argument("--noise-levels", type=float, nargs="+",
-                    default=[0.5, 0.7, 0.8],
+                    default=[0.6, 0.75, 0.85],
                     help="Mask-fraction noise levels for query corruption.")
     ap.add_argument("--n-per-level", type=int, default=250,
                     help="Test queries per noise level per seed.")

@@ -1,20 +1,10 @@
 """Verify _hessian_at against finite differences of the bench energy."""
 from __future__ import annotations
 
-import os
-import sys
-
 import numpy as np
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-BENCH = os.path.abspath(os.path.join(HERE, "..", "bench-p04-pcam"))
-ADAPTERS = os.path.join(BENCH, "adapters")
-for p in (BENCH, ADAPTERS):
-    if p not in sys.path:
-        sys.path.insert(0, p)
-
-from pcam_model import PCAMModel, build_default_R  # noqa: E402
-from myteam import _hessian_at  # noqa: E402
+from pcam_model import PCAMModel, build_default_R
+from myteam import _hessian_at
 
 
 def _energy(model: PCAMModel, a: np.ndarray) -> float:

@@ -1,19 +1,9 @@
 """Verify Ruiz equilibration reduces eigenvalue spread vs identity and Jacobi."""
 from __future__ import annotations
 
-import os
-import sys
-
 import numpy as np
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-BENCH = os.path.abspath(os.path.join(HERE, "..", "bench-p04-pcam"))
-ADAPTERS = os.path.join(BENCH, "adapters")
-for p in (BENCH, ADAPTERS):
-    if p not in sys.path:
-        sys.path.insert(0, p)
-
-from myteam import _ruiz_equilibrate, _spread  # noqa: E402
+from myteam import _ruiz_equilibrate, _spread
 
 
 def _random_spd(n: int, cond: float, rng: np.random.Generator) -> np.ndarray:

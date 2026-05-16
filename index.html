@@ -1591,12 +1591,12 @@ class Engine(Adapter):
 
         <h3>Check 1 · Retrieval Accuracy (70%)</h3>
         <p>
-          We run 1,000 corrupted queries through the PCAM dynamics using your precision weights. We measure how often the dynamics converge to the <em>correct</em> original stored pattern. Compared against the identity-precision baseline, your agent should produce a measurable accuracy gain. Submissions below the baseline score zero on this axis.
+          We run corrupted queries through the PCAM dynamics using your precision weights and measure how often the dynamics converge to the correct original stored pattern. Compared against the identity-precision baseline, your agent should produce a measurable accuracy gain. Submissions below the baseline score zero on this axis. Full marks at Δ = 0.08 — meaningfully exceeding the paper's class-conditional headline gain.
         </p>
 
         <h3>Check 2 · Anisotropy Improvement (20%)</h3>
         <p>
-          For 20 stored patterns, we compute the local landscape curvature and apply your precision. We measure how <em>uniformly</em> the dynamics converge across all 64 directions — a smaller spread means a healthier landscape. The paper shows good precision designs can reduce spread by ~30×; we look for at least 5× over baseline.
+          For sampled stored patterns we compute the local landscape curvature <em>at the true equilibrium</em>, then apply your precision and measure how uniformly the dynamics converge across all 64 directions. Smaller spread = healthier landscape. Full marks at 5× reduction; the paper achieves ~30× with explicit alignment.
         </p>
 
         <h3>Code Quality (10%)</h3>
@@ -1635,26 +1635,28 @@ class Engine(Adapter):
   TOTAL AUTOMATED                   88.36 / 90</code></pre>
 
         <h3>What the numbers mean — Retrieval Δ</h3>
-        <p>Mean improvement in accuracy over the Π=I baseline, averaged across all seeds. A bigger number is always better; the score is linear up to a cap.</p>
+        <p>Mean improvement in accuracy over the Π=I baseline, averaged across all seeds. A bigger number is always better; the score is linear up to a cap. The bar is set above the paper's headline gain so reproducing the paper alone is not full marks.</p>
         <table class="eval">
           <thead><tr><th>Mean Δ</th><th>What it signifies</th></tr></thead>
           <tbody>
             <tr><td class="area">Δ ≤ 0.00</td><td class="desc">At or below baseline · zero on this axis · precision is not helping retrieval</td></tr>
-            <tr><td class="area">0.00 – 0.02</td><td class="desc">Marginal · some signal but the agent isn't reading the corruption sharply</td></tr>
-            <tr><td class="area">0.02 – 0.05</td><td class="desc">Solid · principled agent · scales linearly toward full marks</td></tr>
-            <tr><td class="area">≥ 0.05</td><td class="desc">Full marks (70 pts) · reproduces the paper's class-conditional gain on synthetic data</td></tr>
+            <tr><td class="area">0.00 – 0.02</td><td class="desc">Marginal · some signal, agent isn't reading corruption sharply</td></tr>
+            <tr><td class="area">0.02 – 0.05</td><td class="desc">Solid · principled agent · approaching paper's class-conditional gain</td></tr>
+            <tr><td class="area">0.05 – 0.08</td><td class="desc">Strong · materially beating paper-level designs</td></tr>
+            <tr><td class="area">≥ 0.08</td><td class="desc">Full marks (70 pts) · real engineering ambition beyond the paper</td></tr>
           </tbody>
         </table>
 
         <h3>What the numbers mean — Anisotropy Spread Reduction</h3>
-        <p>How much more uniform the convergence rates are under your precision, averaged across sampled attractors and seeds. The paper achieves ~30× with an explicitly aligned construction.</p>
+        <p>How much more uniform the convergence rates are under your precision, averaged across sampled attractors and seeds. The paper achieves ~30× with an explicitly aligned construction; we set full marks at 5× so disciplined Hessian-aware designs can reach it.</p>
         <table class="eval">
           <thead><tr><th>Factor</th><th>What it signifies</th></tr></thead>
           <tbody>
-            <tr><td class="area">≤ 1.0×</td><td class="desc">Anti-aligned or identical to baseline · zero on this axis</td></tr>
-            <tr><td class="area">1.0× – 2.0×</td><td class="desc">Some isotropisation, not yet principled</td></tr>
-            <tr><td class="area">2.0× – 10.0×</td><td class="desc">Reading local geometry · log-scaled toward full marks at 10×</td></tr>
-            <tr><td class="area">≥ 10.0×</td><td class="desc">Full marks (20 pts) · approaching the paper's aligned construction</td></tr>
+            <tr><td class="area">≤ 1.0×</td><td class="desc">At baseline or worse · zero on this axis</td></tr>
+            <tr><td class="area">1.0× – 1.5×</td><td class="desc">Marginal isotropisation · partial credit · log-scaled</td></tr>
+            <tr><td class="area">1.5× – 3.0×</td><td class="desc">Reading local geometry · log-scaled toward full marks</td></tr>
+            <tr><td class="area">3.0× – 5.0×</td><td class="desc">Strong Hessian awareness</td></tr>
+            <tr><td class="area">≥ 5.0×</td><td class="desc">Full marks (20 pts) · disciplined alignment</td></tr>
           </tbody>
         </table>
 
@@ -1774,8 +1776,8 @@ class Engine(Adapter):
               <table class="eval">
                 <thead><tr><th>Check</th><th>Weight</th><th>How it scores</th></tr></thead>
                 <tbody>
-                  <tr><td class="area">Retrieval Accuracy</td><td class="desc">70%</td><td class="desc">Linear in mean Δ accuracy (across seeds); full at Δ ≥ 0.05; halved if any seed regresses below baseline</td></tr>
-                  <tr><td class="area">Anisotropy Check</td><td class="desc">20%</td><td class="desc">Log-scaled mean spread reduction; full at 10×; halved if any seed shows ≤ 1× reduction</td></tr>
+                  <tr><td class="area">Retrieval Accuracy</td><td class="desc">70%</td><td class="desc">Linear in mean Δ accuracy (across seeds); full at Δ ≥ 0.08; halved if any seed regresses below baseline</td></tr>
+                  <tr><td class="area">Anisotropy Check</td><td class="desc">20%</td><td class="desc">Log-scaled mean spread reduction; full at 5×; halved if any seed shows ≤ 1× reduction</td></tr>
                   <tr><td class="area">Code Quality</td><td class="desc">10%</td><td class="desc">Manual — working code, reproducibility, README</td></tr>
                 </tbody>
               </table>

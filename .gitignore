@@ -14,6 +14,8 @@ env/
 # Reports / artifacts
 *.report.json
 report.json
+report_*.json
+benchmark_summary.json
 
 # macOS
 .DS_Store
